@@ -11,7 +11,7 @@ var db_username = process.env.MONGODB_USERNAME;
 var db_password = process.env.MONGODB_PASSWORD;
 var db_address = process.env.MONGODB_SERVER;
 var db_name = process.env.MONGODB_DATABASE;
-var db_url = `mongodb://${db_username}:${db_password}@${db_address}/${db_name}?retryWrites=true&w=majority`;
+var db_url = `mongodb+srv://${db_username}:${db_password}@${db_address}/${db_name}?retryWrites=true&w=majority`;
 
 mongoose.connect(db_url, {
     useNewUrlParser: true,
@@ -67,18 +67,20 @@ app.set("view engine", "ejs");
 app.use(express.static('public'));
 app.enable("trust proxy");
 
-app.all("*", async (req, res, next) => {
-  var IP = "127.0.0.1";
-  var timestring = new Date().toLocaleString()
-  var UserAgent = req.get('User-Agent') ? req.get('User-Agent'): "No User Agent"
-  var Path = req.originalUrl
-  var Method = req.method
-  var Referer = req.headers.referer ? req.headers.referer: "No Referer" 
+app.all('*', (req, res, next) => {
   
-  console.log(`\n${timestring} - ${Method} ${Path} - ${IP} - ${Referer} - ${UserAgent}`)
+  var IP = req.headers['cf-connecting-ip'] || req.headers["x-forwarded-for"]?.split(",")[0] || req.ip;
+  var time = new Date().toLocaleString();
+  var host = req.hostname;
+  var UserAgent = req.get('User-Agent') || "No User Agent";
+  var Path = req.url || "Unknown Path";
+  var Method = req.method;
+  var Referer = req.get('referer') || "No Referer";
 
+  console.log(`[${time}] ${IP} - ${host} - ${Method} ${Path} - ${UserAgent} - ${Referer}`);
+  
   next();
- 
+  
 });
 
 app.get("/", async (req, res) => {
