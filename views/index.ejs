@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<%- include("./partial/header.ejs") %>
+</head>
+
+<body>
+
+<%- include("./partial/navbar.ejs") %>
+
+<div id="container" class="container-fluid p-3 my-3 rounded">
+
+<p class="h2 text-center">WordPress Logs</p>
+<p class="h5 text-center">Total - <%= logs.length %></p>
+
+
+<div id="container" class="container-fluid p-3 my-3 rounded">
+
+    <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">Time</th>
+            <th scope="col">IP</th>
+            <th scope="col">Path</th>
+            <th scope="col">Username</th>
+            <th scope="col">Password</th>
+            <th scope="col">Raw Body</th>
+          </tr>
+        </thead>
+        <tbody>
+
+        <% logs.reverse().forEach(l => { %>
+          <tr>
+            <th scope="row"><%= l["timestamp"] %></th>
+            <td><%= l["ip"] %> </td>
+            <td><%= l["path"] %> </td>
+            <td><%= l["username"] %></td>
+            <td><%= l["password"] %></td>
+            <td id="postBodyRow"><code><%= typeof(l["body"]) === "object" ? JSON.stringify(l["body"]) : l["body"] %></code></td>
+          </tr>
+          <% }) %> 
+        </tbody>
+      </table>
+
+</div>
+
+
+</div>
+
+
+<%- include('./partial/footer.ejs') %>
+
+
+</body>
+
+</html>

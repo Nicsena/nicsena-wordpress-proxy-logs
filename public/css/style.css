@@ -1,0 +1,30 @@
+body, html {
+    color: #ffffff;
+    background-color: #121212!important;
+}
+
+.container-fluid {
+    color: #ffffff;
+}
+
+.container {
+    color: #ffffff;
+}
+
+.container-fluid .table {
+    color: #ffffff;
+}
+
+.container-fluid .table tbody #postBodyRow {
+    width: 35%;
+    max-width: 35%;
+}
+
+.container-fluid code {
+    color: #ffffff;
+}
+
+/* Footer */
+footer {
+    color: #ffffff;
+}
